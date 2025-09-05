@@ -1,38 +1,70 @@
 <!doctype html>
-<html class="" lang="en">
+<html class="overscroll-y-none" lang="en">
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
     <link href="./css/output.css" rel="stylesheet">
 </head>
 
-<body>
+<body class="overscroll-y-none">
     <!-- ========== HEADER ========== -->
-    <header class="sticky top-0 inset-x-0 z-48 w-full bg-[#BF3131] pt-2 md:pb-2 shadow-xs">
+    <header class="sticky top-0 inset-x-0 z-48 w-full bg-[#BF3131] pt-3 md:pb-3 shadow-xs">
         <nav class="max-w-[100rem] mx-auto w-full px-4">
-            <div class="relative flex items-center h-16">
-                <!-- Logo (left) -->
-                <div class="flex-none hidden md:block">
-                    <img class="h-10" src="./images/logo.png" alt="Logo">
-                </div>
+            <div class="w-full">
+                <div class="grid grid-cols-1 md:grid-cols-[auto_1fr_auto] items-center w-full">
+                    <!-- Left: Logo (hidden on mobile) -->
+                    <div class="hidden md:flex items-center">
+                        <img class="h-10" src="./images/logo.png" alt="Logo">
+                    </div>
 
-                <!-- Search Input (centered absolutely) -->
-                <div class="absolute left-1/2 transform -translate-x-1/2 w-full max-w-lg">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-                            <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="11" cy="11" r="8" />
-                                <path d="m21 21-4.3-4.3" />
-                            </svg>
+                    <!-- Center: Search + Switch -->
+                    <div class="w-full max-w-lg mx-auto">
+                        <div class="flex w-full gap-2 md:gap-4">
+                            <!-- Search -->
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                                    <svg class="shrink-0 size-4 text-gray-400 dark:text-white/60"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke="currentColor" stroke-width="2">
+                                        <circle cx="11" cy="11" r="8" />
+                                        <path d="m21 21-4.3-4.3" />
+                                    </svg>
+                                </div>
+                                <input type="text" class="py-2 ps-10 pe-10 block w-full bg-white rounded-md text-sm border-0
+                        focus:outline-none focus:ring-0 focus:border-0" placeholder="TÌM KIẾM">
+                            </div>
+
+                            <!-- Switch -->
+                            <div class="flex flex-col md:flex-row items-center gap-1 flex-none">
+                                <label for="hs-basic-with-description-checked"
+                                    class="text-xs md:text-sm font-medium text-white">KARAOKE</label>
+                                <label for="hs-basic-with-description-checked"
+                                    class="relative inline-block w-8 h-4.5 md:w-11 md:h-6 cursor-pointer">
+                                    <input type="checkbox" id="hs-basic-with-description-checked" class="peer sr-only"
+                                        checked>
+
+                                    <!-- Track -->
+                                    <span class="absolute inset-0 border border-gray-300 rounded-full transition-colors duration-200 ease-in-out
+                          peer-checked:bg-[#537D5D] peer-disabled:opacity-50 peer-disabled:pointer-events-none"></span>
+
+                                    <!-- Knob -->
+                                    <span class="absolute top-1/2 start-0.5 -translate-y-1/2 size-3.5 md:size-5 bg-white rounded-full shadow-xs
+                          transition-transform duration-200 ease-in-out peer-checked:translate-x-full
+                          dark:bg-neutral-400 dark:peer-checked:bg-white"></span>
+                                </label>
+                            </div>
                         </div>
-                        <input type="text" class="py-2 ps-10 pe-10 block w-full bg-white rounded-md text-sm border-0
-                       focus:outline-none focus:ring-0 focus:border-0" placeholder="Tìm kiếm">
+                    </div>
+
+                    <!-- Right: invisible spacer for centering -->
+                    <div class="hidden md:flex items-center invisible">
+                        <img class="h-10" src="./images/logo.png" alt="">
                     </div>
                 </div>
             </div>
+
             <div class="block md:hidden">
                 <nav class="flex flex-row justify-center" aria-label="Tabs" role="tablist"
                     aria-orientation="horizontal">
@@ -63,8 +95,8 @@
                 <div id="tabs-with-badges-1" role="tabpanel" aria-labelledby="tabs-with-badges-item-1">
                     <div
                         class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 divide-y divide-gray-200 md:divide-y-0">
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -74,15 +106,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -92,15 +124,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -110,15 +142,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -128,15 +160,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -146,15 +178,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -164,15 +196,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -182,15 +214,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -200,15 +232,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -218,15 +250,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -236,15 +268,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -254,15 +286,15 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
                                 </p>
                             </div>
                         </div>
-                        <div
-                            class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+                        <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden"
+                            aria-haspopup="dialog" aria-expanded="false" aria-controls="" data-hs-overlay="#">
                             <div class="basis-1/3 md:basis-full">
                                 <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
                                     src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -272,7 +304,7 @@
                                 <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-1">
                                     Card title
                                 </h3>
-                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-500 line-clamp-1">
+                                <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
                                     Some quick example text to build on the card title and make up the bulk of the
                                     card's
                                     content.
@@ -282,83 +314,167 @@
                     </div>
                 </div>
                 <div id="tabs-with-badges-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-badges-item-2">
-                    <p class="text-gray-500 dark:text-neutral-400">
-                        This is the <em class="font-semibold text-gray-800 dark:text-neutral-200">second</em> item's tab
-                        body.
-                    </p>
+                    <div class="relative">
+                        <div
+                            class="absolute top-0 left-0 rounded-t-md w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center">
+                            <span>Tên bài hát</span>
+                        </div>
+                        <div class="aspect-video rounded-md overflow-hidden">
+                            <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
+                                src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Card Image">
+                        </div>
+                        <!-- Video progress (container) -->
+                        <div class="absolute bottom-2 right-2 left-2">
+                            <!-- Progress bar instance -->
+                            <div data-vp data-duration="312.4" class="w-full max-w-xl">
+                                <div class="flex justify-between text-xs text-white/80 mb-1">
+                                    <span data-vp-current>0:00</span>
+                                    <span data-vp-duration>0:00</span>
+                                </div>
+
+                                <div data-vp-wrap class="relative">
+                                    <!-- Hover time tooltip -->
+                                    <div data-vp-tip
+                                        class="pointer-events-none absolute -top-7 translate-x-[-50%] rounded px-2 py-0.5 text-[11px] bg-black/80 text-white opacity-0 transition-opacity">
+                                        0:00
+                                    </div>
+
+                                    <!-- Range -->
+                                    <input data-vp-range type="range" min="0" step="0.1" value="0" class="w-full bg-transparent cursor-pointer appearance-none focus:outline-hidden
+                                                            h-2 rounded-full
+                                                            [background:linear-gradient(to_right,#2563eb_var(--pct,0%),#e5e7eb_0%)]
+                                                            dark:[background:linear-gradient(to_right,#3b82f6_var(--pct,0%),#374151_0%)]
+                            
+                                                            [&::-webkit-slider-runnable-track]:bg-transparent
+                                                            [&::-webkit-slider-runnable-track]:h-2
+                                                            [&::-webkit-slider-runnable-track]:rounded-full
+                                                            [&::-moz-range-track]:bg-transparent
+                                                            [&::-moz-range-track]:h-2
+                                                            [&::-moz-range-track]:rounded-full
+                            
+                                                            [&::-webkit-slider-thumb]:appearance-none
+                                                            [&::-webkit-slider-thumb]:w-6
+                                                            [&::-webkit-slider-thumb]:h-6
+                                                            [&::-webkit-slider-thumb]:rounded-full
+                                                            [&::-webkit-slider-thumb]:bg-white
+                                                            [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(37,99,235,.95)]
+                                                            [&::-webkit-slider-thumb]:-mt-2
+                            
+                                                            [&::-moz-range-thumb]:w-6
+                                                            [&::-moz-range-thumb]:h-6
+                                                            [&::-moz-range-thumb]:rounded-full
+                                                            [&::-moz-range-thumb]:appearance-none
+                                                            [&::-moz-range-thumb]:bg-white
+                                                            [&::-moz-range-thumb]:border-[1px]
+                                                            [&::-moz-range-thumb]:border-[#BF3131]"
+                                        aria-orientation="horizontal" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-4">
+                        <div class="text-gray-800 font-semibold">BÀI KẾ TIẾP (2)</div>
+                        <div class="divide-y divide-gray-200">
+                            <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
+                                aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal">
+                                <div class="basis-1/3">
+                                    <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
+                                        src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        alt="Card Image">
+                                </div>
+                                <div class="basis-2/3 pl-2">
+                                    <h3 class="font-semibold text-gray-800 line-clamp-1">
+                                        Card title
+                                    </h3>
+                                    <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
+                                        Some quick example text to build on the card title and make up the bulk of the
+                                        card's
+                                        content.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
+                                aria-controls="" data-hs-overlay="#">
+                                <div class="basis-1/3">
+                                    <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
+                                        src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                        alt="Card Image">
+                                </div>
+                                <div class="basis-2/3 pl-2">
+                                    <h3 class="font-semibold text-gray-800 line-clamp-1">
+                                        Card title
+                                    </h3>
+                                    <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
+                                        Some quick example text to build on the card title and make up the bulk of the
+                                        card's
+                                        content.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
     <!-- ========== END MAIN CONTENT ========== -->
 
-    <footer class="sticky bottom-0 inset-x-0 z-48 w-full py-2 bg-white border-t border-gray-200 shadow-xs">
+    <footer class="sticky bottom-0 inset-x-0 z-48 w-full pt-3 pb-6 bg-white border-t border-gray-200 shadow-xs">
         <nav class="max-w-[100rem] mx-auto w-full px-4">
             <div class="flex flex-wrap justify-between gap-1">
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
                             d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">DỪNG</span>
+                    <span class="text-xs font-medium hidden md:block">DỪNG</span>
                 </button>
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
                             d="M15.5 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V8.752l-6.267 3.636c-.52.302-1.233-.043-1.233-.696v-2.94l-6.267 3.636C.713 12.69 0 12.345 0 11.692V4.308c0-.653.713-.998 1.233-.696L7.5 7.248v-2.94c0-.653.713-.998 1.233-.696L15 7.248V4a.5.5 0 0 1 .5-.5M1 4.633v6.734L6.804 8zm7.5 0v6.734L14.304 8z" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">QUA BÀI</span>
+                    <span class="text-xs font-medium hidden md:block">QUA BÀI</span>
                 </button>
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
                         <path
                             d="M8 4.466V.534a.25.25 0 0 0-.41-.192L5.23 2.308a.25.25 0 0 0 0 .384l2.36 1.966A.25.25 0 0 0 8 4.466" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">PHÁT LẠI</span>
+                    <span class="text-xs font-medium hidden md:block">PHÁT LẠI</span>
                 </button>
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
                             d="M3.5 6.5A.5.5 0 0 1 4 7v1a4 4 0 0 0 8 0V7a.5.5 0 0 1 1 0v1a5 5 0 0 1-4.5 4.975V15h3a.5.5 0 0 1 0 1h-7a.5.5 0 0 1 0-1h3v-2.025A5 5 0 0 1 3 8V7a.5.5 0 0 1 .5-.5" />
                         <path
                             d="M10 8a2 2 0 1 1-4 0V3a2 2 0 1 1 4 0zM8 0a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V3a3 3 0 0 0-3-3" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">MUSIC/KARAOKE</span>
+                    <span class="text-xs font-medium hidden md:block">MUSIC / KARAOKE</span>
                 </button>
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
-                        <path d="M12 13c0 1.105-1.12 2-2.5 2S7 14.105 7 13s1.12-2 2.5-2 2.5.895 2.5 2" />
-                        <path fill-rule="evenodd" d="M12 3v10h-1V3z" />
-                        <path d="M11 2.82a1 1 0 0 1 .804-.98l3-.6A1 1 0 0 1 16 2.22V4l-5 1z" />
-                        <path fill-rule="evenodd"
-                            d="M0 11.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 7H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5m0-4A.5.5 0 0 1 .5 3H8a.5.5 0 0 1 0 1H.5a.5.5 0 0 1-.5-.5" />
-                    </svg>
-                    <span class="text-tiny font-medium hidden md:block">TONE</span>
-                </button>
-                <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
                             d="M9 4a.5.5 0 0 0-.812-.39L5.825 5.5H3.5A.5.5 0 0 0 3 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 9 12zM6.312 6.39 8 5.04v5.92L6.312 9.61A.5.5 0 0 0 6 9.5H4v-3h2a.5.5 0 0 0 .312-.11M12.025 8a4.5 4.5 0 0 1-1.318 3.182L10 10.475A3.5 3.5 0 0 0 11.025 8 3.5 3.5 0 0 0 10 5.525l.707-.707A4.5 4.5 0 0 1 12.025 8" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">GIẢM ÂM</span>
+                    <span class="text-xs font-medium hidden md:block">GIẢM ÂM</span>
                 </button>
                 <button type="button"
-                    class="p-2 flex gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
                             d="M11.536 14.01A8.47 8.47 0 0 0 14.026 8a8.47 8.47 0 0 0-2.49-6.01l-.708.707A7.48 7.48 0 0 1 13.025 8c0 2.071-.84 3.946-2.197 5.303z" />
                         <path
@@ -366,18 +482,18 @@
                         <path
                             d="M10.025 8a4.5 4.5 0 0 1-1.318 3.182L8 10.475A3.5 3.5 0 0 0 9.025 8c0-.966-.392-1.841-1.025-2.475l.707-.707A4.5 4.5 0 0 1 10.025 8M7 4a.5.5 0 0 0-.812-.39L3.825 5.5H1.5A.5.5 0 0 0 1 6v4a.5.5 0 0 0 .5.5h2.325l2.363 1.89A.5.5 0 0 0 7 12zM4.312 6.39 6 5.04v5.92L4.312 9.61A.5.5 0 0 0 4 9.5H2v-3h2a.5.5 0 0 0 .312-.11" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">TĂNG ÂM</span>
+                    <span class="text-xs font-medium hidden md:block">TĂNG ÂM</span>
                 </button>
                 <button type="button"
-                    class="hidden md:flex p-2 gap-0.5 items-center rounded-md bg-gray-50 hover:bg-gray-100 focus:outline-hidden focus:bg-gray-100 disabled:opacity-50 disabled:pointer-events-none"
+                    class="hidden md:flex flex-1 justify-center p-2 gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
                     aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-example"
                     data-hs-overlay="#hs-offcanvas-example">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5"
-                        viewBox="0 0 16 16">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="size-5 flex-none" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                             d="M4.5 11.5A.5.5 0 0 1 5 11h10a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m-2-4A.5.5 0 0 1 1 3h10a.5.5 0 0 1 0 1H1a.5.5 0 0 1-.5-.5" />
                     </svg>
-                    <span class="text-tiny font-medium hidden md:block">ĐÃ CHỌN (10)</span>
+                    <span class="text-xs font-medium hidden md:block">ĐÃ CHỌN (10)</span>
                 </button>
             </div>
         </nav>
@@ -387,33 +503,69 @@
         <div id="hs-offcanvas-example"
             class="hs-overlay hs-overlay-open:translate-x-0 hidden translate-x-full fixed top-0 end-0 transition-all duration-300 transform h-full max-w-md w-full z-80 bg-white border-e border-gray-200"
             role="dialog" tabindex="-1" aria-labelledby="hs-offcanvas-example-label">
-            <div class="flex justify-between items-center py-3 px-4 border-b border-gray-200 dark:border-neutral-700">
-                <h3 id="hs-offcanvas-example-label" class="font-semibold text-gray-800">
-                    ĐÃ CHỌN (10)
-                </h3>
-                <button type="button"
-                    class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
-                    aria-label="Close" data-hs-overlay="#hs-offcanvas-example">
-                    <span class="sr-only">Close</span>
-                    <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                        stroke-linejoin="round">
-                        <path d="M18 6 6 18"></path>
-                        <path d="m6 6 12 12"></path>
-                    </svg>
-                </button>
+            <div class="relative">
+                <div
+                    class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center">
+                    <span>Tên bài hát</span>
+                </div>
+                <div class="aspect-video overflow-hidden">
+                    <img class="w-full h-auto aspect-video object-cover object-center"
+                        src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                        alt="Card Image">
+                </div>
+                <!-- Video progress (container) -->
+                <div class="absolute bottom-2 right-2 left-2">
+                    <!-- Progress bar instance -->
+                    <div data-vp data-duration="312.4" class="w-full max-w-xl">
+                        <div class="flex justify-between text-xs text-white/80 mb-1">
+                            <span data-vp-current>0:00</span>
+                            <span data-vp-duration>0:00</span>
+                        </div>
+
+                        <div data-vp-wrap class="relative">
+                            <!-- Hover time tooltip -->
+                            <div data-vp-tip
+                                class="pointer-events-none absolute -top-7 translate-x-[-50%] rounded px-2 py-0.5 text-[11px] bg-black/80 text-white opacity-0 transition-opacity">
+                                0:00
+                            </div>
+
+                            <!-- Range -->
+                            <input data-vp-range type="range" min="0" step="0.1" value="0" class="w-full bg-transparent cursor-pointer appearance-none focus:outline-hidden
+                                h-2 rounded-full
+                                [background:linear-gradient(to_right,#2563eb_var(--pct,0%),#e5e7eb_0%)]
+                                dark:[background:linear-gradient(to_right,#3b82f6_var(--pct,0%),#374151_0%)]
+
+                                [&::-webkit-slider-runnable-track]:bg-transparent
+                                [&::-webkit-slider-runnable-track]:h-2
+                                [&::-webkit-slider-runnable-track]:rounded-full
+                                [&::-moz-range-track]:bg-transparent
+                                [&::-moz-range-track]:h-2
+                                [&::-moz-range-track]:rounded-full
+
+                                [&::-webkit-slider-thumb]:appearance-none
+                                [&::-webkit-slider-thumb]:w-6
+                                [&::-webkit-slider-thumb]:h-6
+                                [&::-webkit-slider-thumb]:rounded-full
+                                [&::-webkit-slider-thumb]:bg-white
+                                [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(37,99,235,.95)]
+                                [&::-webkit-slider-thumb]:-mt-2
+
+                                [&::-moz-range-thumb]:w-6
+                                [&::-moz-range-thumb]:h-6
+                                [&::-moz-range-thumb]:rounded-full
+                                [&::-moz-range-thumb]:appearance-none
+                                [&::-moz-range-thumb]:bg-white
+                                [&::-moz-range-thumb]:border-[1px]
+                                [&::-moz-range-thumb]:border-[#BF3131]" aria-orientation="horizontal" />
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="p-4">
-                <div class="aspect-video rounded-md overflow-hidden">
-                    <iframe class="aspect-video rounded-md" width="560" height="315"
-                        src="https://www.youtube.com/embed/HjBo--1n8lI?si=MCHEH0ShTV1BspP1" title="YouTube video player"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-                <div class="text-gray-800 font-semibold mt-4">BÀI KẾ TIẾP</div>
+                <div class="text-gray-800 font-semibold">BÀI KẾ TIẾP (2)</div>
                 <div class="divide-y divide-gray-200">
-                    <div class="flex bg-white py-2 overflow-hidden">
+                    <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
+                        aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal">
                         <div class="basis-1/3">
                             <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
                                 src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -423,14 +575,15 @@
                             <h3 class="font-semibold text-gray-800 line-clamp-1">
                                 Card title
                             </h3>
-                            <p class="text-sm mt-0.5 text-gray-500 line-clamp-1">
+                            <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
                                 Some quick example text to build on the card title and make up the bulk of the
                                 card's
                                 content.
                             </p>
                         </div>
                     </div>
-                    <div class="flex bg-white py-2 overflow-hidden">
+                    <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
+                        aria-controls="" data-hs-overlay="#">
                         <div class="basis-1/3">
                             <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
                                 src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
@@ -440,7 +593,7 @@
                             <h3 class="font-semibold text-gray-800 line-clamp-1">
                                 Card title
                             </h3>
-                            <p class="text-sm mt-0.5 text-gray-500 line-clamp-1">
+                            <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
                                 Some quick example text to build on the card title and make up the bulk of the
                                 card's
                                 content.
@@ -451,6 +604,108 @@
             </div>
         </div>
     </div>
+
+    <div id="hs-scale-animation-modal"
+        class="hs-overlay hidden size-full fixed top-0 start-0 z-100 overflow-x-hidden overflow-y-auto pointer-events-none"
+        role="dialog" tabindex="-1" aria-labelledby="hs-scale-animation-modal-label">
+        <div
+            class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 ease-in-out transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-56px)] flex items-center">
+            <div class="w-full flex flex-col bg-white shadow-2xs rounded-md pointer-events-auto">
+                <div class="relative">
+                    <div
+                        class="absolute top-0 left-0 w-full py-2 px-4 rounded-t-md backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center">
+                        <span>Tên bài hát</span>
+                    </div>
+                    <div class="aspect-video rounded-t-md overflow-hidden">
+                        <img class="w-full h-auto aspect-video rounded-t-md object-cover object-center"
+                            src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            alt="Card Image">
+                    </div>
+                </div>
+                <div class="flex justify-between items-center gap-x-2 py-3 px-4">
+                    <button type="button"
+                        class="flex-1 py-2 px-3 justify-center inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-transparent bg-[#BF3131] text-white focus:outline-hidden hover:bg-[#a82727] focus:bg-[#a82727] disabled:opacity-50 disabled:pointer-events-none">
+                        Save changes
+                    </button>
+                    <button type="button"
+                        class="flex-1 py-2 px-3 justify-center inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-transparent bg-[#BF3131] text-white focus:outline-hidden hover:bg-[#a82727] focus:bg-[#a82727] disabled:opacity-50 disabled:pointer-events-none">
+                        Save changes
+                    </button>
+                    <button type="button"
+                        class="flex-1 py-2 px-3 justify-center inline-flex items-center gap-x-2 text-sm font-medium rounded-md border border-transparent bg-[#BF3131] text-white focus:outline-hidden hover:bg-[#a82727] focus:bg-[#a82727] disabled:opacity-50 disabled:pointer-events-none">
+                        Save changes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="hs-sign-out-alert-small-window"
+        class="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto" role="dialog"
+        tabindex="-1" aria-labelledby="hs-sign-out-alert-small-window-label">
+        <div
+            class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-xs sm:w-full m-3 sm:mx-auto">
+            <div class="relative flex flex-col bg-white shadow-lg rounded-xl dark:bg-neutral-900">
+                <div class="absolute top-2 end-2">
+                    <button type="button"
+                        class="size-8 inline-flex justify-center items-center gap-x-2 rounded-full border border-transparent bg-gray-100 text-gray-800 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-700 dark:hover:bg-neutral-600 dark:text-neutral-400 dark:focus:bg-neutral-600"
+                        aria-label="Close" data-hs-overlay="#hs-sign-out-alert-small-window">
+                        <span class="sr-only">Close</span>
+                        <svg class="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="p-4 sm:p-10 text-center overflow-y-auto">
+                    <!-- Icon -->
+                    <span
+                        class="mb-4 inline-flex justify-center items-center size-15.5 rounded-full border-4 border-yellow-50 bg-yellow-100 text-yellow-500 dark:bg-yellow-700 dark:border-yellow-600 dark:text-yellow-100">
+                        <svg class="shrink-0 size-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                            fill="currentColor" viewBox="0 0 16 16">
+                            <path
+                                d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                        </svg>
+                    </span>
+                    <!-- End Icon -->
+
+                    <h3 id="hs-sign-out-alert-small-window-label"
+                        class="mb-2 text-2xl font-bold text-gray-800 dark:text-neutral-200">
+                        Sign out
+                    </h3>
+                    <p class="text-gray-700 dark:text-neutral-500">
+                        Are you sure you would like to sign out of your Preline account?
+                    </p>
+
+                    <div class="mt-6 grid gap-y-2">
+                        <button type="button"
+                            class="py-2.5 px-4 w-full inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none focus:outline-hidden focus:bg-gray-50 dark:bg-transparent dark:border-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-800 dark:focus:bg-neutral-800">
+                            Sign out
+                        </button>
+                        <button type="button"
+                            class="py-2.5 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            data-hs-overlay="#hs-sign-out-alert-small-window">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Spinner Loading -->
+    <!-- <div class="absolute inset-0 flex items-center justify-center">
+        <div class="bg-black/30 p-8 rounded-md">
+            <div class="animate-spin inline-block size-8 border-4 border-current border-t-transparent text-[#BF3131] rounded-full"
+                role="status" aria-label="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div> -->
 
     <script src="./node_modules/preline/dist/preline.js"></script>
     <script src="./script/script.js"></script>
