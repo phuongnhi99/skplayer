@@ -104,6 +104,7 @@ function renderSearchResults(containerId, results) {
 }
 
 function buildQueueCard(item) {
+  console.log(item);
   const title  = escapeHTML(item?.title);
   const singer = escapeHTML(item?.singer);
   const thumbnailRaw = item?.thumbnail;
@@ -127,6 +128,7 @@ function buildQueueCard(item) {
   </div>`;
 }
 function renderListQueue(className, queue) {
+  console.log(queue);
   const html = queue.map(buildQueueCard).join("");
   document.querySelectorAll(`.${className}`).forEach(el => { el.innerHTML = html; });
 }
@@ -203,31 +205,31 @@ document.querySelectorAll('.upNextList').forEach(list => {
 
   document.getElementById('song-action-choose')?.addEventListener('click', withPayload(p => {
     // ví dụ: chọn bài từ kết quả search
-    send('res', { youtubeId: p.youtubeId, songId: p.songId, title: p.title, singer: p.singer });
+    send('res', { youtubeId: p.youtubeId, songId: p.songId, title: p.title, singer: p.singer, thumbnail: p.thumbnail });
     closeModal();
   }));
 
   document.getElementById('song-action-priority')?.addEventListener('click', withPayload(p => {
     // ví dụ: ưu tiên phát từ search
-    send('res_1st', { youtubeId: p.youtubeId, id: p.id, title: p.title, singer: p.singer });
+    send('res_1st', { youtubeId: p.youtubeId, songId: p.songId, title: p.title, singer: p.singer, thumbnail: p.thumbnail });
     closeModal();
   }));
 
   document.getElementById('song-action-play')?.addEventListener('click', withPayload(p => {
     // ví dụ: ưu tiên phát bài trong queue
-    send('queue_priority', { id: p.id, position: p.position });
+    send('queue_move_first', { position: p.position });
     closeModal();
   }));
 
   document.getElementById('song-action-move')?.addEventListener('click', withPayload(p => {
     // ví dụ: đẩy lên trong queue
-    send('queue_move_up', { id: p.id, position: p.position });
+    send('queue_move_up', { position: p.position });
     closeModal();
   }));
 
   document.getElementById('song-action-delete')?.addEventListener('click', withPayload(p => {
     // ví dụ: xóa khỏi queue
-    send('queue_delete', { id: p.id, position: p.position });
+    send('queue_remove', { position: p.position });
     closeModal();
   }));
 })();
@@ -383,6 +385,26 @@ function initNoZoomAndHideKeyboard() {
   window.addEventListener('orientationchange', blurActive);
 }
 
+const playPauseButton = document.getElementById('playPauseButton');
+const playPauseIcon = document.getElementById('playPauseIcon');
+const playPauseText = document.getElementById('playPauseText');
+
+function updatePlayPauseUI() {
+  if (isPlaying) {
+    playPauseIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="size-5 flex-none" viewBox="0 0 16 16">
+                            <path
+                                d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5" />
+                        </svg>`;
+    playPauseText.textContent = "DỪNG";
+  } else {
+    playPauseIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="size-5 flex-none" viewBox="0 0 16 16">
+  <path d="M10.804 8 5 4.633v6.734zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696z"/>
+</svg>`;
+    playPauseText.textContent = "PHÁT";
+  }
+}
+
 /* ==============================
    SIGNALR PART (giữ theo mẫu bạn, chỉ rút gọn phần log)
 ============================== */
@@ -449,6 +471,7 @@ async function startConnection(preferWS = true) {
     logJson("OnMessage", msg);
     if (msg.kind === "evt") {
       isPlaying = msg.data.isPlaying;
+      updatePlayPauseUI();
       currentAudioTrack = msg.data.currentAudioTrack;
       currentPositionMs = msg.data.currentPositionMs;
       durationMs = msg.data.durationMs;
@@ -464,6 +487,7 @@ async function startConnection(preferWS = true) {
 
         updateUpNextCount(count);
         renderPlayingCard("nowPlaying", current);
+        console.log(upNext);
         renderListQueue("upNextList", upNext);
       }
 

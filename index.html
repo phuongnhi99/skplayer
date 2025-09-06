@@ -169,15 +169,18 @@
     <footer class="sticky bottom-0 inset-x-0 z-48 w-full pt-3 pb-6 bg-neutral-800 shadow-xs">
         <nav class="max-w-[100rem] mx-auto w-full px-4">
             <div class="flex flex-wrap justify-between gap-1">
-                <button type="button" onclick="send(isPlaying ? 'pause' : 'play')"
+                <button id="playPauseButton" type="button" onclick="send(isPlaying ? 'pause' : 'play')"
                     class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                        class="size-5 flex-none" viewBox="0 0 16 16">
-                        <path
-                            d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5" />
-                    </svg>
-                    <span class="text-xs font-medium hidden md:block">DỪNG</span>
+                    <span id="playPauseIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="size-5 flex-none" viewBox="0 0 16 16">
+                            <path
+                                d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5" />
+                        </svg>
+                    </span>
+                    <span id="playPauseText" class="text-xs font-medium hidden md:block"></span>
                 </button>
+
                 <button type="button" onclick="send('next')"
                     class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
