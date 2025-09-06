@@ -3,8 +3,9 @@ document.addEventListener('DOMContentLoaded', function () {
   initNoZoomAndHideKeyboard();      // prevents zoom + hides keyboard on scroll
 });
 
+
 // ==============================
-// 1) Video progress bars
+// Video progress bars
 // ==============================
 function initVideoProgressBars(scope = document) {
   function fmt(sec) {
@@ -98,9 +99,6 @@ function initVideoProgressBars(scope = document) {
   scope.querySelectorAll('[data-vp]').forEach(setupVP);
 }
 
-// ==============================
-// 2) No zoom + hide keyboard on scroll
-// ==============================
 let __uiGuardsBound = false;
 function initNoZoomAndHideKeyboard() {
   if (__uiGuardsBound) return; // prevent duplicate listeners if called again
@@ -196,18 +194,22 @@ function escapeHTML(s = "") {
 function buildResultCard(item) {
   const title  = escapeHTML(item?.title);
   const singer = escapeHTML(item?.singer);
-  const thumb  = escapeHTML(item?.thumbnail);
+  const thumbRaw = item?.thumbnail;
+  const thumb    = thumbRaw ? escapeHTML(thumbRaw) : "images/default_thumbnail.jpg"; 
 
   return `
-  <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+  <div class="result-card flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden" data-song
+    data-id="${escapeHTML(item.id)}"
+    data-title="${escapeHTML(item.title)}"
+    data-thumb="${escapeHTML(item.thumbnail)}">
     <div class="basis-1/3 md:basis-full">
       <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
-           src="${thumb}"
-           alt="Ảnh nhỏ: ${title}"
-           loading="lazy" />
+          src="${thumb}"
+          alt="Ảnh nhỏ: ${title}"
+          loading="lazy" />
     </div>
     <div class="basis-2/3 md:basis-full pl-2 md:p-4">
-      <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2">
+      <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2 uppercase">
         ${title}
       </h3>
       <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
@@ -235,33 +237,31 @@ function renderSearchResults(containerId, results) {
 function buildQueueCard(item) {
   const title  = escapeHTML(item?.title);
   const singer = escapeHTML(item?.singer);
-  const thumb = escapeHTML(item?.thumbnail);
+  const thumbRaw = item?.thumbnail;
+  const thumb = thumbRaw ? escapeHTML(thumbRaw) : "images/default_thumbnail.jpg"; 
+  
   return `
-  <div class="flex bg-white py-2 overflow-hidden cursor-pointer">
+  <div class="queue-card flex bg-white py-2 overflow-hidden cursor-pointer" data-queue
+     data-id="${escapeHTML(item.id)}"
+     data-title="${escapeHTML(item.title)}"
+     data-thumb="${escapeHTML(item.thumbnail)}">
     <div class="basis-1/3">
         <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
             src="${thumb}" alt="Ảnh nhỏ: ${title}" loading="lazy">
     </div>
     <div class="basis-2/3 pl-2">
-        <h3 class="font-semibold text-gray-800 line-clamp-2">${title}</h3>
+        <h3 class="font-semibold text-gray-800 line-clamp-2 uppercase">${title}</h3>
         <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">${singer}</p>
     </div>
   </div>`;
 }
 
-function renderListQueue(containerId, results) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
+function renderListQueue(className, queue) {
+  const html = queue.map(buildQueueCard).join("");
 
-  if (!Array.isArray(results) || results.length === 0) {
-    el.innerHTML = `
-        <div class="col-span-full text-center text-gray-700 text-sm py-4">
-            Danh sách trống.
-        </div>`;
-    return;
-  }
-
-  el.innerHTML = results.map(buildQueueCard).join("");
+  document.querySelectorAll(`.${className}`).forEach(el => {
+    el.innerHTML = html;
+  });
 }
 
 function buildPlayingCard(item) {
@@ -270,28 +270,30 @@ function buildPlayingCard(item) {
   }
 
   const title = escapeHTML(item.title);
-  const thumb = escapeHTML(item.thumbnail);
+  const thumbRaw = item?.thumbnail;
+  const thumb    = thumbRaw ? escapeHTML(thumbRaw) : "images/default_thumbnail.jpg"; 
 
   return `
     <div class="relative">
-      <div class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white text-center font-medium">
-        <span class="line-clamp-2">${title}</span>
+      <div class="absolute top-0 left-0 w-full py-1 px-2 bg-black/50 text-white text-center font-medium">
+        <span class="line-clamp-2 uppercase">${title}</span>
       </div>
 
-      <div class="aspect-video overflow-hidden rounded-md">
+      <div class="aspect-video overflow-hidden">
         <img class="w-full h-full object-cover object-center"
              src="${thumb}"
              alt="Ảnh nhỏ: ${title}"
-             loading="lazy"
-             onerror="this.src='data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 16 9&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;%23eee&quot;/></svg>')}'">
+             loading="lazy">
       </div>
     </div>`;
 }
 
-function renderPlayingCard(containerId, item) {
-  const el = document.getElementById(containerId);
-  if (!el) return;
-  el.innerHTML = buildPlayingCard(item);
+function renderPlayingCard(className, item) {
+  const html = buildPlayingCard(item);
+
+  document.querySelectorAll(`.${className}`).forEach(el => {
+    el.innerHTML = html;
+  });
 }
 
 function updateUpNextCount(count) {
@@ -299,6 +301,106 @@ function updateUpNextCount(count) {
     el.textContent = String(count);
   });
 }
+
+// Minimal safe helpers
+function setText(id, text) { const el = document.getElementById(id); if (el) el.textContent = text || ""; }
+function setImg(id, src, alt) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.src = src || "";
+  el.alt = alt || "";
+}
+
+// Toggle which button group is visible
+function toggleGroups(mode) {
+  document.querySelectorAll('#song-action-modal [data-group]').forEach(g => {
+    g.classList.toggle('hidden', g.getAttribute('data-group') !== mode);
+  });
+}
+
+// Open Preline overlay programmatically
+function openModal() {
+  if (window.HSOverlay?.open) HSOverlay.open('#song-action-modal');
+  else document.querySelector('#song-action-modal')?.classList.remove('hidden');
+}
+function closeModal() {
+  if (window.HSOverlay?.close) HSOverlay.close('#song-action-modal');
+  else document.querySelector('#song-action-modal')?.classList.add('hidden');
+}
+
+// Stash the payload for button handlers
+function setPayload(payload) {
+  const modal = document.getElementById('song-action-modal');
+  modal.dataset.payload = JSON.stringify(payload || {});
+}
+function getPayload() {
+  const modal = document.getElementById('song-action-modal');
+  try { return JSON.parse(modal?.dataset.payload || '{}'); } catch { return {}; }
+}
+
+// Main entry point to show the modal in a specific mode
+function showActionModal({ mode, title, thumb, payload }) {
+  toggleGroups(mode);
+  setText('song-action-title', title || '');
+  setImg('song-action-thumb', thumb || '', `Ảnh nhỏ: ${title || ''}`);
+  setPayload({ ...(payload || {}), mode });
+  openModal();
+}
+
+// Wire actions (once)
+(function bindSongActions(){
+  document.getElementById('song-action-choose')?.addEventListener('click', () => {
+    const p = getPayload(); // { id, type: 'search', ... }
+    // TODO: conn.invoke(... choose p.id ...)
+    closeModal();
+  });
+  document.getElementById('song-action-priority')?.addEventListener('click', () => {
+    const p = getPayload();
+    // TODO: conn.invoke(... priority from search ...)
+    closeModal();
+  });
+  document.getElementById('song-action-play')?.addEventListener('click', () => {
+    const p = getPayload(); // { id, type: 'queue', ... }
+    // TODO: conn.invoke(... play-priority queue item ...)
+    closeModal();
+  });
+  document.getElementById('song-action-move')?.addEventListener('click', () => {
+    const p = getPayload();
+    // TODO: conn.invoke(... move-up queue item ...)
+    closeModal();
+  });
+  document.getElementById('song-action-delete')?.addEventListener('click', () => {
+    const p = getPayload();
+    // TODO: conn.invoke(... remove queue item ...)
+    closeModal();
+  });
+})();
+
+// SEARCH results container
+document.getElementById('searchResultsGrid')?.addEventListener('click', (e) => {
+  const card = e.target.closest('[data-song]');
+  if (!card) return;
+  showActionModal({
+    mode: 'search',
+    title: card.dataset.title,
+    thumb: card.dataset.thumb,
+    payload: { id: card.dataset.id, type: 'search' }
+  });
+});
+
+// QUEUE list containers (you said you have two)
+document.querySelectorAll('.upNextList').forEach(list => {
+  list.addEventListener('click', (e) => {
+    const card = e.target.closest('[data-queue]');
+    if (!card) return;
+    showActionModal({
+      mode: 'queue',
+      title: card.dataset.title,
+      thumb: card.dataset.thumb,
+      payload: { id: card.dataset.id, type: 'queue' }
+    });
+  });
+});
 
 // ===== Config =====
 const RECONNECT_DELAYS = [0, 1500, 3000, 5000, 10000, 15000, 30000];
@@ -456,174 +558,6 @@ async function startConnection(preferWS = true) {
     }
 }
 
-// async function startConnection(preferWS = true) {
-//     conn = createConnection(preferWS);
-
-//     conn.on("OnMessage", (msg) => {
-//         logJson("OnMessage", msg);
-//         if (msg.kind === "evt") {
-//             // statusEl.textContent = `Đã kết nối`;
-//             isPlaying = msg.data.isPlaying;
-//             currentAudioTrack = msg.data.currentAudioTrack;
-//             logJson("isPlaying", isPlaying);
-//             currentPositionMs = msg.data.currentPositionMs;
-//             durationMs = msg.data.durationMs;
-//             if (msg.op === 'search_result') {
-//               const results = msg.data.searchResult;
-//               console.log('onSearchResult');
-//               console.log(results)
-//               const container = document.getElementById("searchResultsGrid");
-
-//               //   if (!Array.isArray(results) || results.length === 0) {
-//               //       container.innerHTML = `
-//               //       <div class="col-span-full text-center text-gray-700 text-lg py-6">
-//               //       Không có kết quả.
-//               //       </div>`;
-//               //       return;
-//               //   }
-//               //   // Dùng map để build HTML nhanh hơn
-//               //   const html = results.map(item => `
-//               //   <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
-//               //       <div class="basis-1/3 md:basis-full">
-//               //       <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
-//               //           src="${item.thumbnail}"
-//               //           alt="Ảnh nhỏ: ${item.title}" 
-//               //           loading="lazy" />
-//               //       </div>
-//               //       <div class="basis-2/3 md:basis-full pl-2 md:p-4">
-//               //       <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2">
-//               //           ${item.title}
-//               //       </h3>
-//               //       <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
-//               //           ${item.singer}
-//               //       </p>
-//               //       </div>
-//               //   </div>
-//               //   `).join("");
-//               //   // Render vào container
-//               //   container.innerHTML = html;
-//             }
-//             else if (msg.op === 'queue_changed' || msg.op === 'state_snapshot') {
-//             //     const data = msg.data || {};
-//             //     const upNext = data.queue || [];
-//             //     const count = Number.isFinite(data.queueCount) ? data.queueCount : upNext.length;
-
-//             //     const listEl = document.getElementById("upNextList");   // <div id="upNextList">
-//             //     const countEl = document.getElementById("upNextCount");  // <span id="upNextCount">
-//             //     const nowEl = document.getElementById("nowPlaying");   // (tuỳ chọn) nơi hiển thị bài đang phát
-
-//             //     // Cập nhật số lượng
-//             //     if (countEl) countEl.textContent = String(count);
-
-//             //     // Render bài đang phát
-//             //     if (nowEl && data.currentSong) {
-//             //         const cs = data.currentSong;
-//             //         const thumb = cs.thumbnail || (cs.youtubeId ? `https://img.youtube.com/vi/${cs.youtubeId}/mqdefault.jpg` : 'https://via.placeholder.com/400x225?text=No+Image');
-//             //         nowEl.innerHTML = `
-//             //                 <div
-//             //                     class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center font-medium">
-//             //                     <span>${cs.title}</span>
-//             //                 </div>
-//             //                 <div class="aspect-video overflow-hidden">
-//             //                     <img class="w-full h-auto aspect-video object-cover object-center"
-//             //                         src="${thumb}" alt="Ảnh nhỏ: ${cs.title}"
-//             //                         loading="lazy">
-//             //                 </div>
-//             //             `;
-//             //     }
-
-//             //     // Render danh sách kế tiếp
-//             //     if (!listEl) return;
-
-//             //     if (!Array.isArray(upNext) || upNext.length === 0) {
-//             //         listEl.innerHTML = `
-//             //         <div class="col-span-full text-center text-gray-700 text-sm py-4">
-//             //             Danh sách trống.
-//             //         </div>`;
-//             //         return;
-//             //     }
-
-//             //     const html = upNext.map(item => {
-//             //     const thumb  = item.thumbnail || (item.youtubeId
-//             //         ? `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`
-//             //         : 'https://via.placeholder.com/400x225?text=No+Image');
-//             //     const title  = item.title   || 'Không có tiêu đề';
-//             //     const singer = item.singer  || '';
-
-//             //     return `
-//             //         <div class="flex bg-white py-2 overflow-hidden cursor-pointer"
-//             //             data-song
-//             //             data-title="${title.replace(/"/g,'&quot;')}"
-//             //             data-singer="${singer.replace(/"/g,'&quot;')}"
-//             //             data-thumb="${thumb}"
-//             //             data-youtube-id="${item.youtubeId || ''}"
-//             //             data-song-id="${item.songId ?? ''}">
-//             //         <div class="basis-1/3">
-//             //             <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
-//             //                 src="${thumb}" alt="Ảnh nhỏ: ${title}" loading="lazy">
-//             //         </div>
-//             //         <div class="basis-2/3 pl-2">
-//             //             <h3 class="font-semibold text-gray-800 line-clamp-2">${title}</h3>
-//             //             <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">${singer}</p>
-//             //         </div>
-//             //         </div>
-//             //     `;
-//             //     }).join("");
-
-//             //     listEl.innerHTML = html;
-//             }
-//           if (!didFirstSearch) {
-//             console.log('first search');
-//               didFirstSearch = true;
-//               const keyword = 'karaoke';
-//               const m = { v: 1, sid, rid: rid(), kind: "query", op: "search", data: { keyword } };
-//               if (!conn || conn.state !== "Connected") { pending.push(m); return; }
-//               conn.invoke("SendFromRemote", m).catch(e => logLine("Search error: " + e));
-//           }
-//         }  
-//     });
-
-//   conn.onreconnecting(() => {
-//       // statusEl.textContent = "Mất kết nối, đang thử lại…";
-//       logLine("onreconnecting");
-//   });
-
-//   conn.onreconnected(async () => {
-//       logLine("onreconnected → rejoin group");
-//       // statusEl.textContent = "Đã kết nối lại. Đang join lại phiên…";
-//       try {
-//           await conn.invoke("JoinRemote", sid);
-//           // statusEl.textContent = "Đã join lại.";
-//           // Flush hàng đợi
-//           if (pending.length) {
-//               const batch = pending;
-//               pending = [];
-//               for (const m of batch) {
-//                   logJson("Resend", m);
-//                   conn.invoke("SendFromRemote", m).catch(e => logLine("Resend error: " + e));
-//               }
-//           }
-//       } catch (e) {
-//           // statusEl.textContent = "Lỗi join lại.";
-//           logLine("Rejoin error: " + e);
-//       }
-//   });
-
-//   conn.onclose(() => {
-//       // statusEl.textContent = "Kết nối đóng, sẽ thử kết nối lại…";
-//       logLine("onclose → restart in 1.5s");
-//       setTimeout(() => connectSequence(), 1500);
-//   });
-
-//   try {
-//       await conn.start();
-//   } catch (e) {
-//       logLine("Start failed: " + e);
-//       if (preferWS) { await delay(500); return startConnection(false); }
-//       else { throw e; }
-//   }
-// }
-
 async function join() {
     const res = await conn.invoke("JoinRemote", sid);
     if (!res?.ok) {
@@ -719,48 +653,3 @@ window.addEventListener('orientationchange', () => requestWakeLockIfVisible());
     if (!sid) { alert("Thiếu sid trong URL"); return; }
     await connectSequence();
 })();
-
-// Ensure Preline is loaded (via <script src=".../preline.js"> or import 'preline')
-function openSongModalFromDataset(ds) {
-  const title  = ds.title || 'Không có tiêu đề';
-  const singer = ds.singer || '';
-  const thumb  = ds.thumb  || (ds.youtubeId ? `https://img.youtube.com/vi/${ds.youtubeId}/mqdefault.jpg` : '');
-
-  // Fill content
-  document.getElementById('song-modal-title').textContent = title;
-  const img = document.getElementById('song-modal-thumb');
-  img.src = thumb;
-  img.alt = `Ảnh nhỏ: ${title}`;
-
-  // Wire buttons (example actions, adapt to your backend ops)
-  const songId = ds.songId || '';
-  const youtubeId = ds.youtubeId || '';
-
-  document.getElementById('song-modal-play').onclick = () => {
-    send('play_track', { songId, youtubeId });
-    window.HSOverlay?.close?.('#song-modal');
-  };
-  document.getElementById('song-modal-queue').onclick = () => {
-    send('enqueue_track', { songId, youtubeId });
-    window.HSOverlay?.close?.('#song-modal');
-  };
-  document.getElementById('song-modal-close').onclick = () => {
-    window.HSOverlay?.close?.('#song-modal');
-  };
-
-  // Open via Preline API
-  if (window.HSOverlay?.open) {
-    window.HSOverlay.open('#song-modal');
-  } else {
-    // Fallback: make sure Preline is initialized then try again
-    window.HSStaticMethods?.autoInit?.();
-    window.HSOverlay?.open?.('#song-modal');
-  }
-}
-
-// Event delegation on the list: open modal when a card is clicked
-document.getElementById('upNextList').addEventListener('click', (e) => {
-  const card = e.target.closest('[data-song]');
-  if (!card) return;
-  openSongModalFromDataset(card.dataset);
-});

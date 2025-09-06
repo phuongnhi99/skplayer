@@ -29,3 +29,7 @@ button,
 [role="button"] {
   touch-action: manipulation;
 }
+
+html {
+  scrollbar-gutter: stable;
+}

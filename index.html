@@ -100,103 +100,63 @@
                     </div>
                 </div>
                 <div id="tabs-with-badges-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-badges-item-2">
-                    <div class="relative">
-                        <div
-                            class="absolute top-0 left-0 rounded-t-md w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center font-medium">
-                            <span>Tên bài hát</span>
-                        </div>
-                        <div class="aspect-video rounded-md overflow-hidden">
-                            <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
-                                src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Card Image">
-                        </div>
-                        <!-- Video progress (container) -->
-                        <div class="absolute bottom-2 right-2 left-2">
-                            <!-- Progress bar instance -->
-                            <div data-vp data-duration="312.4" class="w-full max-w-xl">
-                                <div class="flex justify-between text-xs text-white/80 mb-1">
-                                    <span data-vp-current>0:00</span>
-                                    <span data-vp-duration>0:00</span>
-                                </div>
-
-                                <div data-vp-wrap class="relative">
-                                    <!-- Hover time tooltip -->
-                                    <div data-vp-tip
-                                        class="pointer-events-none absolute -top-7 translate-x-[-50%] rounded px-2 py-0.5 text-[11px] bg-black/80 text-white opacity-0 transition-opacity">
-                                        0:00
+                    <div class="relative flex h-full flex-col">
+                        <div class="relative">
+                            <div id="nowPlaying2" class="nowPlaying"></div>
+                            <!-- Video progress (container) -->
+                            <div class="absolute bottom-2 right-2 left-2">
+                                <!-- Progress bar instance -->
+                                <div data-vp data-duration="312.4" class="w-full max-w-xl">
+                                    <div class="flex justify-between text-xs text-white/80 mb-1">
+                                        <span data-vp-current>0:00</span>
+                                        <span data-vp-duration>0:00</span>
                                     </div>
 
-                                    <!-- Range -->
-                                    <input data-vp-range type="range" min="0" step="0.1" value="0" class="w-full bg-transparent cursor-pointer appearance-none focus:outline-hidden
-                                                            h-2 rounded-full
-                                                            [background:linear-gradient(to_right,#2563eb_var(--pct,0%),#e5e7eb_0%)]
-                                                            dark:[background:linear-gradient(to_right,#3b82f6_var(--pct,0%),#374151_0%)]
-                            
-                                                            [&::-webkit-slider-runnable-track]:bg-transparent
-                                                            [&::-webkit-slider-runnable-track]:h-2
-                                                            [&::-webkit-slider-runnable-track]:rounded-full
-                                                            [&::-moz-range-track]:bg-transparent
-                                                            [&::-moz-range-track]:h-2
-                                                            [&::-moz-range-track]:rounded-full
-                            
-                                                            [&::-webkit-slider-thumb]:appearance-none
-                                                            [&::-webkit-slider-thumb]:w-6
-                                                            [&::-webkit-slider-thumb]:h-6
-                                                            [&::-webkit-slider-thumb]:rounded-full
-                                                            [&::-webkit-slider-thumb]:bg-white
-                                                            [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(37,99,235,.95)]
-                                                            [&::-webkit-slider-thumb]:-mt-2
-                            
-                                                            [&::-moz-range-thumb]:w-6
-                                                            [&::-moz-range-thumb]:h-6
-                                                            [&::-moz-range-thumb]:rounded-full
-                                                            [&::-moz-range-thumb]:appearance-none
-                                                            [&::-moz-range-thumb]:bg-white
-                                                            [&::-moz-range-thumb]:border-[1px]
-                                                            [&::-moz-range-thumb]:border-[#BF3131]"
-                                        aria-orientation="horizontal" />
+                                    <div data-vp-wrap class="relative">
+                                        <!-- Hover time tooltip -->
+                                        <div data-vp-tip
+                                            class="pointer-events-none absolute -top-7 translate-x-[-50%] rounded px-2 py-0.5 text-[11px] bg-black/80 text-white opacity-0 transition-opacity">
+                                            0:00
+                                        </div>
+
+                                        <!-- Range -->
+                                        <input data-vp-range type="range" min="0" step="0.1" value="0" class="w-full bg-transparent cursor-pointer appearance-none focus:outline-hidden
+                                                        h-2 rounded-full
+                                                        [background:linear-gradient(to_right,#2563eb_var(--pct,0%),#e5e7eb_0%)]
+                                                        dark:[background:linear-gradient(to_right,#3b82f6_var(--pct,0%),#374151_0%)]
+                        
+                                                        [&::-webkit-slider-runnable-track]:bg-transparent
+                                                        [&::-webkit-slider-runnable-track]:h-2
+                                                        [&::-webkit-slider-runnable-track]:rounded-full
+                                                        [&::-moz-range-track]:bg-transparent
+                                                        [&::-moz-range-track]:h-2
+                                                        [&::-moz-range-track]:rounded-full
+                        
+                                                        [&::-webkit-slider-thumb]:appearance-none
+                                                        [&::-webkit-slider-thumb]:w-6
+                                                        [&::-webkit-slider-thumb]:h-6
+                                                        [&::-webkit-slider-thumb]:rounded-full
+                                                        [&::-webkit-slider-thumb]:bg-white
+                                                        [&::-webkit-slider-thumb]:shadow-[0_0_0_4px_rgba(37,99,235,.95)]
+                                                        [&::-webkit-slider-thumb]:-mt-2
+                        
+                                                        [&::-moz-range-thumb]:w-6
+                                                        [&::-moz-range-thumb]:h-6
+                                                        [&::-moz-range-thumb]:rounded-full
+                                                        [&::-moz-range-thumb]:appearance-none
+                                                        [&::-moz-range-thumb]:bg-white
+                                                        [&::-moz-range-thumb]:border-[1px]
+                                                        [&::-moz-range-thumb]:border-[#BF3131]"
+                                            aria-orientation="horizontal" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="pt-4">
-                        <div class="text-gray-800 font-semibold">BÀI KẾ TIẾP (2)</div>
-                        <div class="divide-y divide-gray-200">
-                            <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
-                                aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal">
-                                <div class="basis-1/3">
-                                    <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
-                                        src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Card Image">
-                                </div>
-                                <div class="basis-2/3 pl-2">
-                                    <h3 class="font-semibold text-gray-800 line-clamp-1">
-                                        Card title
-                                    </h3>
-                                    <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
-                                        Some quick example text to build on the card title and make up the bulk of the
-                                        card's
-                                        content.
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex bg-white py-2 overflow-hidden" aria-haspopup="dialog" aria-expanded="false"
-                                aria-controls="" data-hs-overlay="#">
-                                <div class="basis-1/3">
-                                    <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
-                                        src="https://images.unsplash.com/photo-1756312091127-2d42d33427ee?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                        alt="Card Image">
-                                </div>
-                                <div class="basis-2/3 pl-2">
-                                    <h3 class="font-semibold text-gray-800 line-clamp-1">
-                                        Card title
-                                    </h3>
-                                    <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">
-                                        Some quick example text to build on the card title and make up the bulk of the
-                                        card's
-                                        content.
-                                    </p>
-                                </div>
+                        <div class="text-gray-800 font-semibold px-4 py-2">BÀI KẾ TIẾP (<span
+                                class="upNextCount">0</span>)
+                        </div>
+                        <div class="px-4 pb-4 flex-1 overflow-y-auto">
+                            <div id="upNextList2" class="upNextList divide-y divide-gray-200">
                             </div>
                         </div>
                     </div>
@@ -206,11 +166,11 @@
     </main>
     <!-- ========== END MAIN CONTENT ========== -->
 
-    <footer class="sticky bottom-0 inset-x-0 z-48 w-full pt-3 pb-6 bg-white border-t border-gray-200 shadow-xs">
+    <footer class="sticky bottom-0 inset-x-0 z-48 w-full pt-3 pb-6 bg-neutral-800 shadow-xs">
         <nav class="max-w-[100rem] mx-auto w-full px-4">
             <div class="flex flex-wrap justify-between gap-1">
                 <button type="button" onclick="send(isPlaying ? 'pause' : 'play')"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
@@ -219,7 +179,7 @@
                     <span class="text-xs font-medium hidden md:block">DỪNG</span>
                 </button>
                 <button type="button" onclick="send('next')"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
@@ -228,7 +188,7 @@
                     <span class="text-xs font-medium hidden md:block">QUA BÀI</span>
                 </button>
                 <button type="button" onclick="send('replay')"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M8 3a5 5 0 1 1-4.546 2.914.5.5 0 0 0-.908-.417A6 6 0 1 0 8 2z" />
@@ -238,7 +198,7 @@
                     <span class="text-xs font-medium hidden md:block">PHÁT LẠI</span>
                 </button>
                 <button type="button" onclick="send('vocal_toggle', {track:currentAudioTrack === 0 ? 1 : 0})"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
@@ -249,7 +209,7 @@
                     <span class="text-xs font-medium hidden md:block">MUSIC / KARAOKE</span>
                 </button>
                 <button type="button" onclick="send('volume_down')"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
@@ -258,7 +218,7 @@
                     <span class="text-xs font-medium hidden md:block">GIẢM ÂM</span>
                 </button>
                 <button type="button" onclick="send('volume_up')"
-                    class="p-2 flex flex-1 justify-center gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none">
+                    class="p-2 flex flex-1 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="size-5 flex-none" viewBox="0 0 16 16">
                         <path
@@ -271,7 +231,7 @@
                     <span class="text-xs font-medium hidden md:block">TĂNG ÂM</span>
                 </button>
                 <button type="button"
-                    class="hidden md:flex flex-1 justify-center p-2 gap-1 items-center rounded-md bg-gray-100 hover:bg-gray-200 focus:outline-hidden focus:bg-gray-200 disabled:opacity-50 disabled:pointer-events-none"
+                    class="hidden md:flex flex-1 p-2 gap-1 items-center rounded-md text-white disabled:opacity-50 disabled:pointer-events-none"
                     aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-offcanvas-example"
                     data-hs-overlay="#hs-offcanvas-example">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -292,7 +252,7 @@
             role="dialog" tabindex="-1" aria-labelledby="hs-offcanvas-example-label">
             <div class="relative flex h-full flex-col">
                 <div class="relative">
-                    <div id="nowPlaying"></div>
+                    <div id="nowPlaying1" class="nowPlaying"></div>
                     <!-- Video progress (container) -->
                     <div class="absolute bottom-2 right-2 left-2">
                         <!-- Progress bar instance -->
@@ -344,42 +304,46 @@
                 <div class="text-gray-800 font-semibold px-4 py-2">BÀI KẾ TIẾP (<span class="upNextCount">0</span>)
                 </div>
                 <div class="px-4 pb-4 flex-1 overflow-y-auto">
-                    <div id="upNextList" class="divide-y divide-gray-200">
+                    <div id="upNextList1" class="upNextList divide-y divide-gray-200">
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="song-modal" class="hs-overlay hidden fixed inset-0 z-100 overflow-y-auto pointer-events-none" role="dialog"
-        tabindex="-1" aria-labelledby="chose-song-modal-title">
-        <div class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0
-                  transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-56px)]
-                  flex items-center">
+    <!-- ONE modal for both search & queue -->
+    <div id="song-action-modal"
+        class="hs-overlay hidden size-full fixed top-0 start-0 z-80 overflow-x-hidden overflow-y-auto pointer-events-none"
+        role="dialog" tabindex="-1" aria-labelledby="song-action-title">
+        <div
+            class="hs-overlay-animation-target hs-overlay-open:scale-100 hs-overlay-open:opacity-100 scale-95 opacity-0 transition-all duration-200 sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-56px)] flex items-center">
             <div class="w-full bg-white rounded-md shadow pointer-events-auto">
                 <div class="relative">
-                    <div id="chose-song-modal-title"
-                        class="absolute top-0 left-0 w-full py-2 px-4 bg-black/50 text-white text-center font-medium line-clamp-2">
+                    <div id="song-action-title"
+                        class="absolute top-0 left-0 w-full py-1 px-2 rounded-t-md bg-black/50 text-white text-center font-medium line-clamp-2 uppercase">
                     </div>
                     <div class="aspect-video rounded-t-md overflow-hidden">
-                        <img id="chose-song-modal-thumb" class="w-full aspect-video object-cover" alt="">
+                        <img id="song-action-thumb" class="w-full h-full object-cover" alt="">
                     </div>
                 </div>
 
                 <div class="p-4">
-                    <div class="flex gap-2">
-                        <button id="chose-song-modal-play" type="button"
-                            class="flex-1 py-2 px-3 rounded-md bg-[#BF3131] text-white">
-                            Ưu tiên
-                        </button>
-                        <button id="chose-song-modal-queue" type="button"
-                            class="flex-1 py-2 px-3 rounded-md bg-[#BF3131] text-white">
-                            Đẩy lên
-                        </button>
-                        <button id="chose-song-modal-close" type="button"
-                            class="flex-1 py-2 px-3 rounded-md bg-[#BF3131] text-white">
-                            Xóa
-                        </button>
+                    <!-- Button group for SEARCH result -->
+                    <div data-group="search" class="flex gap-2">
+                        <button id="song-action-choose" type="button"
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Chọn</button>
+                        <button id="song-action-priority" type="button"
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Ưu tiên</button>
+                    </div>
+
+                    <!-- Button group for QUEUE item -->
+                    <div data-group="queue" class="flex gap-2 hidden">
+                        <button id="song-action-play" type="button"
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Ưu tiên</button>
+                        <button id="song-action-move" type="button"
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Đẩy lên</button>
+                        <button id="song-action-delete" type="button"
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Xóa</button>
                     </div>
                 </div>
             </div>
