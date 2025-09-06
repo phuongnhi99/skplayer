@@ -183,6 +183,123 @@ function initNoZoomAndHideKeyboard() {
   window.addEventListener('orientationchange', blurActive);
 }
 
+/** Minimal escape to avoid injecting raw HTML from API data */
+function escapeHTML(s = "") {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function buildResultCard(item) {
+  const title  = escapeHTML(item?.title);
+  const singer = escapeHTML(item?.singer);
+  const thumb  = escapeHTML(item?.thumbnail);
+
+  return `
+  <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+    <div class="basis-1/3 md:basis-full">
+      <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
+           src="${thumb}"
+           alt="Ảnh nhỏ: ${title}"
+           loading="lazy" />
+    </div>
+    <div class="basis-2/3 md:basis-full pl-2 md:p-4">
+      <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2">
+        ${title}
+      </h3>
+      <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
+        ${singer}
+      </p>
+    </div>
+  </div>`;
+}
+
+function renderSearchResults(containerId, results) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  if (!Array.isArray(results) || results.length === 0) {
+    el.innerHTML = `
+      <div class="col-span-full text-center text-gray-700 text-lg py-6">
+        Không có kết quả.
+      </div>`;
+    return;
+  }
+
+  el.innerHTML = results.map(buildResultCard).join("");
+}
+
+function buildQueueCard(item) {
+  const title  = escapeHTML(item?.title);
+  const singer = escapeHTML(item?.singer);
+  const thumb = escapeHTML(item?.thumbnail);
+  return `
+  <div class="flex bg-white py-2 overflow-hidden cursor-pointer">
+    <div class="basis-1/3">
+        <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
+            src="${thumb}" alt="Ảnh nhỏ: ${title}" loading="lazy">
+    </div>
+    <div class="basis-2/3 pl-2">
+        <h3 class="font-semibold text-gray-800 line-clamp-2">${title}</h3>
+        <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">${singer}</p>
+    </div>
+  </div>`;
+}
+
+function renderListQueue(containerId, results) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+
+  if (!Array.isArray(results) || results.length === 0) {
+    el.innerHTML = `
+        <div class="col-span-full text-center text-gray-700 text-sm py-4">
+            Danh sách trống.
+        </div>`;
+    return;
+  }
+
+  el.innerHTML = results.map(buildQueueCard).join("");
+}
+
+function buildPlayingCard(item) {
+  if (!item) {
+    return ``;
+  }
+
+  const title = escapeHTML(item.title);
+  const thumb = escapeHTML(item.thumbnail);
+
+  return `
+    <div class="relative">
+      <div class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white text-center font-medium">
+        <span class="line-clamp-2">${title}</span>
+      </div>
+
+      <div class="aspect-video overflow-hidden rounded-md">
+        <img class="w-full h-full object-cover object-center"
+             src="${thumb}"
+             alt="Ảnh nhỏ: ${title}"
+             loading="lazy"
+             onerror="this.src='data:image/svg+xml;utf8,${encodeURIComponent('<svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 16 9&quot;><rect width=&quot;100%&quot; height=&quot;100%&quot; fill=&quot;%23eee&quot;/></svg>')}'">
+      </div>
+    </div>`;
+}
+
+function renderPlayingCard(containerId, item) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = buildPlayingCard(item);
+}
+
+function updateUpNextCount(count) {
+  document.querySelectorAll(".upNextCount").forEach(el => {
+    el.textContent = String(count);
+  });
+}
+
 // ===== Config =====
 const RECONNECT_DELAYS = [0, 1500, 3000, 5000, 10000, 15000, 30000];
 const ENABLE_WAKE_LOCK = true;
@@ -263,122 +380,38 @@ async function startConnection(preferWS = true) {
     conn.on("OnMessage", (msg) => {
         logJson("OnMessage", msg);
         if (msg.kind === "evt") {
-            // statusEl.textContent = `Đã kết nối`;
-            isPlaying = msg.data.isPlaying;
-            currentAudioTrack = msg.data.currentAudioTrack;
-            logJson("isPlaying", isPlaying);
-            currentPositionMs = msg.data.currentPositionMs;
-            durationMs = msg.data.durationMs;
-            if (msg.op === 'search_result') {
-                const results = msg.data.searchResult;
-                const container = document.getElementById("searchResultsGrid");
+          // statusEl.textContent = `Đã kết nối`;
+          isPlaying = msg.data.isPlaying;
+          currentAudioTrack = msg.data.currentAudioTrack;
+          logJson("isPlaying", isPlaying);
+          currentPositionMs = msg.data.currentPositionMs;
+          durationMs = msg.data.durationMs;
+          
+          if (msg.op === 'search_result') {
+            const results = msg.data.searchResult;
+            console.log(results);
+            renderSearchResults("searchResultsGrid", results);
+          }
+          else if (msg.op === 'queue_changed' || msg.op === 'state_snapshot') {
+            const data = msg.data || {};
+            const upNext = data.queue || [];
+            const count = Number.isFinite(data.queueCount) ? data.queueCount : upNext.length;
+            const current = data.currentSong;
 
-                if (!Array.isArray(results) || results.length === 0) {
-                    container.innerHTML = `
-                    <div class="col-span-full text-center text-gray-700 text-lg py-6">
-                    Không có kết quả.
-                    </div>`;
-                    return;
-                }
-                // Dùng map để build HTML nhanh hơn
-                const html = results.map(item => `
-                <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
-                    <div class="basis-1/3 md:basis-full">
-                    <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
-                        src="${item.thumbnail}"
-                        alt="Ảnh nhỏ: ${item.title}" 
-                        loading="lazy" />
-                    </div>
-                    <div class="basis-2/3 md:basis-full pl-2 md:p-4">
-                    <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2">
-                        ${item.title}
-                    </h3>
-                    <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
-                        ${item.singer}
-                    </p>
-                    </div>
-                </div>
-                `).join("");
-                // Render vào container
-                container.innerHTML = html;
-            }
-            else if (msg.op === 'queue_changed' || msg.op === 'state_snapshot') {
-                const data = msg.data || {};
-                const upNext = data.queue || [];
-                const count = Number.isFinite(data.queueCount) ? data.queueCount : upNext.length;
+            updateUpNextCount(count);
 
-                const listEl = document.getElementById("upNextList");   // <div id="upNextList">
-                const countEl = document.getElementById("upNextCount");  // <span id="upNextCount">
-                const nowEl = document.getElementById("nowPlaying");   // (tuỳ chọn) nơi hiển thị bài đang phát
+            renderPlayingCard("nowPlaying", current);
 
-                // Cập nhật số lượng
-                if (countEl) countEl.textContent = String(count);
-
-                // Render bài đang phát
-                if (nowEl && data.currentSong) {
-                    const cs = data.currentSong;
-                    const thumb = cs.thumbnail || (cs.youtubeId ? `https://img.youtube.com/vi/${cs.youtubeId}/mqdefault.jpg` : 'https://via.placeholder.com/400x225?text=No+Image');
-                    nowEl.innerHTML = `
-                            <div
-                                class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center font-medium">
-                                <span>${cs.title}</span>
-                            </div>
-                            <div class="aspect-video overflow-hidden">
-                                <img class="w-full h-auto aspect-video object-cover object-center"
-                                    src="${thumb}" alt="Ảnh nhỏ: ${cs.title}"
-                                    loading="lazy">
-                            </div>
-                        `;
-                }
-
-                // Render danh sách kế tiếp
-                if (!listEl) return;
-
-                if (!Array.isArray(upNext) || upNext.length === 0) {
-                    listEl.innerHTML = `
-                    <div class="col-span-full text-center text-gray-700 text-sm py-4">
-                        Danh sách trống.
-                    </div>`;
-                    return;
-                }
-
-                const html = upNext.map(item => {
-                const thumb  = item.thumbnail || (item.youtubeId
-                    ? `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`
-                    : 'https://via.placeholder.com/400x225?text=No+Image');
-                const title  = item.title   || 'Không có tiêu đề';
-                const singer = item.singer  || '';
-
-                return `
-                    <div class="flex bg-white py-2 overflow-hidden cursor-pointer"
-                        data-song
-                        data-title="${title.replace(/"/g,'&quot;')}"
-                        data-singer="${singer.replace(/"/g,'&quot;')}"
-                        data-thumb="${thumb}"
-                        data-youtube-id="${item.youtubeId || ''}"
-                        data-song-id="${item.songId ?? ''}">
-                    <div class="basis-1/3">
-                        <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
-                            src="${thumb}" alt="Ảnh nhỏ: ${title}" loading="lazy">
-                    </div>
-                    <div class="basis-2/3 pl-2">
-                        <h3 class="font-semibold text-gray-800 line-clamp-2">${title}</h3>
-                        <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">${singer}</p>
-                    </div>
-                    </div>
-                `;
-                }).join("");
-
-                listEl.innerHTML = html;
-            }
-
-        }
-        if (!didFirstSearch) {
+            renderListQueue("upNextList", upNext);
+          }
+          if (!didFirstSearch) {
+            console.log('first search');
             didFirstSearch = true;
             const keyword = 'karaoke';
             const m = { v: 1, sid, rid: rid(), kind: "query", op: "search", data: { keyword } };
             if (!conn || conn.state !== "Connected") { pending.push(m); return; }
             conn.invoke("SendFromRemote", m).catch(e => logLine("Search error: " + e));
+          }
         }
     });
 
@@ -392,7 +425,7 @@ async function startConnection(preferWS = true) {
         // statusEl.textContent = "Đã kết nối lại. Đang join lại phiên…";
         try {
             await conn.invoke("JoinRemote", sid);
-            // statusEl.textContent = "Đã join lại.";
+            statusEl.textContent = "Đã join lại.";
             // Flush hàng đợi
             if (pending.length) {
                 const batch = pending;
@@ -422,6 +455,174 @@ async function startConnection(preferWS = true) {
         else { throw e; }
     }
 }
+
+// async function startConnection(preferWS = true) {
+//     conn = createConnection(preferWS);
+
+//     conn.on("OnMessage", (msg) => {
+//         logJson("OnMessage", msg);
+//         if (msg.kind === "evt") {
+//             // statusEl.textContent = `Đã kết nối`;
+//             isPlaying = msg.data.isPlaying;
+//             currentAudioTrack = msg.data.currentAudioTrack;
+//             logJson("isPlaying", isPlaying);
+//             currentPositionMs = msg.data.currentPositionMs;
+//             durationMs = msg.data.durationMs;
+//             if (msg.op === 'search_result') {
+//               const results = msg.data.searchResult;
+//               console.log('onSearchResult');
+//               console.log(results)
+//               const container = document.getElementById("searchResultsGrid");
+
+//               //   if (!Array.isArray(results) || results.length === 0) {
+//               //       container.innerHTML = `
+//               //       <div class="col-span-full text-center text-gray-700 text-lg py-6">
+//               //       Không có kết quả.
+//               //       </div>`;
+//               //       return;
+//               //   }
+//               //   // Dùng map để build HTML nhanh hơn
+//               //   const html = results.map(item => `
+//               //   <div class="flex flex-row md:flex-col bg-white pb-2 md:pb-0 md:border md:border-gray-200 md:shadow-2xs md:rounded-md overflow-hidden">
+//               //       <div class="basis-1/3 md:basis-full">
+//               //       <img class="w-full h-auto rounded-md md:rounded-b-none aspect-video object-cover object-center"
+//               //           src="${item.thumbnail}"
+//               //           alt="Ảnh nhỏ: ${item.title}" 
+//               //           loading="lazy" />
+//               //       </div>
+//               //       <div class="basis-2/3 md:basis-full pl-2 md:p-4">
+//               //       <h3 class="md:text-lg font-semibold text-gray-800 line-clamp-2">
+//               //           ${item.title}
+//               //       </h3>
+//               //       <p class="text-sm md:text-base mt-0.5 md:mt-1 text-gray-700 line-clamp-1">
+//               //           ${item.singer}
+//               //       </p>
+//               //       </div>
+//               //   </div>
+//               //   `).join("");
+//               //   // Render vào container
+//               //   container.innerHTML = html;
+//             }
+//             else if (msg.op === 'queue_changed' || msg.op === 'state_snapshot') {
+//             //     const data = msg.data || {};
+//             //     const upNext = data.queue || [];
+//             //     const count = Number.isFinite(data.queueCount) ? data.queueCount : upNext.length;
+
+//             //     const listEl = document.getElementById("upNextList");   // <div id="upNextList">
+//             //     const countEl = document.getElementById("upNextCount");  // <span id="upNextCount">
+//             //     const nowEl = document.getElementById("nowPlaying");   // (tuỳ chọn) nơi hiển thị bài đang phát
+
+//             //     // Cập nhật số lượng
+//             //     if (countEl) countEl.textContent = String(count);
+
+//             //     // Render bài đang phát
+//             //     if (nowEl && data.currentSong) {
+//             //         const cs = data.currentSong;
+//             //         const thumb = cs.thumbnail || (cs.youtubeId ? `https://img.youtube.com/vi/${cs.youtubeId}/mqdefault.jpg` : 'https://via.placeholder.com/400x225?text=No+Image');
+//             //         nowEl.innerHTML = `
+//             //                 <div
+//             //                     class="absolute top-0 left-0 w-full py-2 px-4 backdrop-blur-md bg-black/50 text-white line-clamp-2 text-center font-medium">
+//             //                     <span>${cs.title}</span>
+//             //                 </div>
+//             //                 <div class="aspect-video overflow-hidden">
+//             //                     <img class="w-full h-auto aspect-video object-cover object-center"
+//             //                         src="${thumb}" alt="Ảnh nhỏ: ${cs.title}"
+//             //                         loading="lazy">
+//             //                 </div>
+//             //             `;
+//             //     }
+
+//             //     // Render danh sách kế tiếp
+//             //     if (!listEl) return;
+
+//             //     if (!Array.isArray(upNext) || upNext.length === 0) {
+//             //         listEl.innerHTML = `
+//             //         <div class="col-span-full text-center text-gray-700 text-sm py-4">
+//             //             Danh sách trống.
+//             //         </div>`;
+//             //         return;
+//             //     }
+
+//             //     const html = upNext.map(item => {
+//             //     const thumb  = item.thumbnail || (item.youtubeId
+//             //         ? `https://img.youtube.com/vi/${item.youtubeId}/mqdefault.jpg`
+//             //         : 'https://via.placeholder.com/400x225?text=No+Image');
+//             //     const title  = item.title   || 'Không có tiêu đề';
+//             //     const singer = item.singer  || '';
+
+//             //     return `
+//             //         <div class="flex bg-white py-2 overflow-hidden cursor-pointer"
+//             //             data-song
+//             //             data-title="${title.replace(/"/g,'&quot;')}"
+//             //             data-singer="${singer.replace(/"/g,'&quot;')}"
+//             //             data-thumb="${thumb}"
+//             //             data-youtube-id="${item.youtubeId || ''}"
+//             //             data-song-id="${item.songId ?? ''}">
+//             //         <div class="basis-1/3">
+//             //             <img class="w-full h-auto rounded-md aspect-video object-cover object-center"
+//             //                 src="${thumb}" alt="Ảnh nhỏ: ${title}" loading="lazy">
+//             //         </div>
+//             //         <div class="basis-2/3 pl-2">
+//             //             <h3 class="font-semibold text-gray-800 line-clamp-2">${title}</h3>
+//             //             <p class="text-sm mt-0.5 text-gray-700 line-clamp-1">${singer}</p>
+//             //         </div>
+//             //         </div>
+//             //     `;
+//             //     }).join("");
+
+//             //     listEl.innerHTML = html;
+//             }
+//           if (!didFirstSearch) {
+//             console.log('first search');
+//               didFirstSearch = true;
+//               const keyword = 'karaoke';
+//               const m = { v: 1, sid, rid: rid(), kind: "query", op: "search", data: { keyword } };
+//               if (!conn || conn.state !== "Connected") { pending.push(m); return; }
+//               conn.invoke("SendFromRemote", m).catch(e => logLine("Search error: " + e));
+//           }
+//         }  
+//     });
+
+//   conn.onreconnecting(() => {
+//       // statusEl.textContent = "Mất kết nối, đang thử lại…";
+//       logLine("onreconnecting");
+//   });
+
+//   conn.onreconnected(async () => {
+//       logLine("onreconnected → rejoin group");
+//       // statusEl.textContent = "Đã kết nối lại. Đang join lại phiên…";
+//       try {
+//           await conn.invoke("JoinRemote", sid);
+//           // statusEl.textContent = "Đã join lại.";
+//           // Flush hàng đợi
+//           if (pending.length) {
+//               const batch = pending;
+//               pending = [];
+//               for (const m of batch) {
+//                   logJson("Resend", m);
+//                   conn.invoke("SendFromRemote", m).catch(e => logLine("Resend error: " + e));
+//               }
+//           }
+//       } catch (e) {
+//           // statusEl.textContent = "Lỗi join lại.";
+//           logLine("Rejoin error: " + e);
+//       }
+//   });
+
+//   conn.onclose(() => {
+//       // statusEl.textContent = "Kết nối đóng, sẽ thử kết nối lại…";
+//       logLine("onclose → restart in 1.5s");
+//       setTimeout(() => connectSequence(), 1500);
+//   });
+
+//   try {
+//       await conn.start();
+//   } catch (e) {
+//       logLine("Start failed: " + e);
+//       if (preferWS) { await delay(500); return startConnection(false); }
+//       else { throw e; }
+//   }
+// }
 
 async function join() {
     const res = await conn.invoke("JoinRemote", sid);
