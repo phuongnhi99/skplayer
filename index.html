@@ -328,18 +328,18 @@
                 </div>
 
                 <div class="p-4">
-                    <!-- Button group for SEARCH result -->
-                    <div data-group="search" class="flex gap-2">
+                    <!-- keep your structure; only ensure BOTH groups use data-type -->
+                    <div data-type="search" class="flex gap-2">
                         <button id="song-action-choose" type="button"
                             class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Chọn</button>
                         <button id="song-action-priority" type="button"
                             class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Ưu tiên</button>
                     </div>
 
-                    <!-- Button group for QUEUE item -->
-                    <div data-group="queue" class="flex gap-2 hidden">
+                    <div data-type="queue" class="flex gap-2 hidden"><!-- was data-ty before -->
                         <button id="song-action-play" type="button"
-                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Ưu tiên</button>
+                            class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Ưu
+                            tiên</button>
                         <button id="song-action-move" type="button"
                             class="flex-1 py-2 px-3 rounded-lg bg-[#BF3131] text-white uppercase">Đẩy lên</button>
                         <button id="song-action-delete" type="button"
